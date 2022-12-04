@@ -4,10 +4,16 @@ import React from 'react';
 import { Store } from '../utils/Store';
 
 function Layout({ children, title }) {
-  const { state, action } = React.useContext(Store);
+  const { state } = React.useContext(Store);
+  const [cartItemsCount, setCartItemsCount] = React.useState(0);
+
   const {
     cart: { cartItems },
   } = state;
+
+  React.useEffect(() => {
+    setCartItemsCount(cartItems.reduce((a, c) => a + c.quantity, 0));
+  }, []);
 
   return (
     <>
@@ -26,11 +32,9 @@ function Layout({ children, title }) {
             <div className="relation">
               <Link className="p-2" href={'/cart'}>
                 Cart
-                {cartItems.length > 0 && (
-                  <span className="ml-1 rounded-full bg-red-600 py-1 px-2 text-xs text-white ">
-                    {cartItems.reduce((a, c) => a + c.quantity, 0)}
-                  </span>
-                )}
+                <span className="ml-1 rounded-full bg-red-600 py-1 px-2 text-xs text-white ">
+                  {cartItemsCount}
+                </span>
               </Link>
               <Link className="p-2" href={'/login'}>
                 Login

@@ -2,5 +2,11 @@
   /**
    * "eslint:recommended": hataların altını çizer
    */
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+
   "extends": ["eslint:recommended", "next/core-web-vitals"]
 }

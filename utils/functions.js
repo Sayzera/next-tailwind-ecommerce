@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 export const cartAddItem = (state, action) => {
   const newItem = action.payload;
 
@@ -14,8 +16,9 @@ export const cartAddItem = (state, action) => {
       )
     : [...state.cart.cartItems, newItem];
 
+  Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }));
   return {
     ...state,
-    cart: { cartItems },
+    cart: { ...state.cart, cartItems },
   };
 };

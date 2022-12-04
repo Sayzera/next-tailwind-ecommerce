@@ -7,7 +7,9 @@ import { BsXCircle } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 // https://react-icons.github.io/react-icons
 
-export default function CartScreen() {
+import dynamic from 'next/dynamic';
+
+function CartScreen() {
   const { state, dispatch } = React.useContext(Store);
   const router = useRouter();
 
@@ -113,3 +115,4 @@ export default function CartScreen() {
     </Layout>
   );
 }
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
