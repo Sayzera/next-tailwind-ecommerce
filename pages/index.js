@@ -1,15 +1,9 @@
-import Head from 'next/head';
+import Layout from '../components/Layout';
 
 export default function Home() {
   return (
-    <div>
-      <Head>
-        <title>Next Ecommerce</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <h1 className="text-3xl font-bold">Next Tailwind Amazona</h1>
-    </div>
+    <Layout title={'Home'}>
+      <h1>Home Page</h1>
+    </Layout>
   );
 }

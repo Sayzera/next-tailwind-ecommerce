@@ -1,3 +1,6 @@
 {
-  "extends": "next/core-web-vitals"
+  /**
+   * "eslint:recommended": hataların altını çizer
+   */
+  "extends": ["eslint:recommended", "next/core-web-vitals"]
 }
