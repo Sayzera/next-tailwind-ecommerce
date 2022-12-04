@@ -1,4 +1,5 @@
 import { createContext, useReducer } from 'react';
+import { cartAddItem } from './functions';
 
 export const Store = createContext();
 
@@ -11,24 +12,19 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'CART_ADD_ITEM': {
-      const newItem = action.payload;
-
-      console.log(newItem);
-      // Check if the item is already in the cart
-      const existItem = state.cart.cartItems.find(
-        (item) => item.slug == newItem.slug
+      return cartAddItem(state, action);
+    }
+    case 'CART_REMOVE_ITEM': {
+      const item = action.payload;
+      const cartItems = state.cart.cartItems.filter(
+        (x) => x.slug !== item.slug
       );
-
-      // If the item is already in the cart, add the new item
-      const cartItems = existItem
-        ? state.cart.cartItems.map((item) =>
-            item.name === existItem.name ? newItem : item
-          )
-        : [...state.cart.cartItems, newItem];
 
       return {
         ...state,
-        cart: { cartItems },
+        cart: {
+          cartItems,
+        },
       };
     }
     default:

@@ -8,6 +8,7 @@ import { Store } from '../../utils/Store';
 // https://headlessui.com/react/combobox
 
 export default function ProductScreen() {
+  const router = useRouter();
   const { query } = useRouter();
   const { slug } = query;
   const { state, dispatch } = React.useContext(Store);
@@ -33,6 +34,8 @@ export default function ProductScreen() {
         quantity: quantity,
       },
     });
+
+    router.push('/cart');
   };
   return (
     <Layout title={product.name}>
