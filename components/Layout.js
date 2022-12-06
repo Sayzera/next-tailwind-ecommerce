@@ -1,16 +1,25 @@
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 import { Store } from '../utils/Store';
+import { Menu } from '@headlessui/react';
+import DropdownLink from './DropdownLink';
+import Cookies from 'js-cookie';
 
 function Layout({ children, title }) {
-  const { state } = React.useContext(Store);
+  const { state, dispatch } = React.useContext(Store);
   const [cartItemsCount, setCartItemsCount] = React.useState(0);
 
   const { status, data: session } = useSession();
 
-  console.log('session', status);
+  const loginClickHandler = () => {
+    Cookies.remove('cart');
+    dispatch({ type: 'CART_RESET' });
+    signOut({
+      callbackUrl: '/login',
+    });
+  };
 
   const {
     cart: { cartItems },
@@ -45,7 +54,33 @@ function Layout({ children, title }) {
               {status === 'login' ? (
                 'loading..'
               ) : session?.user ? (
-                session.user.name
+                <Menu as="div" className="relative inline-block ">
+                  <Menu.Button className={'text-blue-600'}>
+                    {session.user.name}
+                  </Menu.Button>
+
+                  <Menu.Items className="absolute right-0 w-52 origin-top-right mt-1  bg-white shadow-lg">
+                    <Menu.Item>
+                      <>
+                        <DropdownLink className="dropdown-link" href="/profile">
+                          Profile
+                        </DropdownLink>
+                      </>
+                    </Menu.Item>
+
+                    <Menu.Item>
+                      <>
+                        <DropdownLink
+                          className="dropdown-link"
+                          href="#"
+                          onClick={loginClickHandler}
+                        >
+                          Logout
+                        </DropdownLink>
+                      </>
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
               ) : (
                 <Link className="p-2" href={'/login'}>
                   Login
