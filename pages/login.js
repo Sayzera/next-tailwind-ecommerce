@@ -4,8 +4,8 @@ import Layout from '../components/Layout';
 import { useForm } from 'react-hook-form';
 import { signIn, useSession } from 'next-auth/react';
 import { getError } from '../utils/error';
-import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function LoginScreen() {
   const { data: session } = useSession();
@@ -15,7 +15,7 @@ export default function LoginScreen() {
     if (session?.user) {
       router.push(redirect || '/');
     }
-  }, []);
+  }, [session]);
   const {
     register,
     handleSubmit,
@@ -40,6 +40,8 @@ export default function LoginScreen() {
 
   return (
     <Layout>
+      <ToastContainer position="top-center" draggable draggablePercent={60} />
+
       <form
         className="mx-auto max-w-screen"
         onSubmit={handleSubmit(submitHandler)}
