@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 // https://react-icons.github.io/react-icons
 
 import dynamic from 'next/dynamic';
+import axios from 'axios';
 
 function CartScreen() {
   const { state, dispatch } = React.useContext(Store);
@@ -21,8 +22,14 @@ function CartScreen() {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
 
-  const updateCartHandler = (item, qty) => {
+  const updateCartHandler = async (item, qty) => {
     const quantity = Number(qty);
+    const { data } = await axios.get(`/api/products/${item.slug}`);
+
+    if (data.countInStock < quantity) {
+      window.alert('Sorry. Product is out of stock');
+      return;
+    }
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
   };
 

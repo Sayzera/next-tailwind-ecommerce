@@ -1,28 +1,33 @@
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Layout from '../../components/Layout';
-import data from '../../utils/data';
+import Product from '../../models/Product';
+import db from '../../utils/db';
 import { Store } from '../../utils/Store';
 // https://headlessui.com/react/combobox
 
-export default function ProductScreen() {
+export default function ProductScreen({ product }) {
   const router = useRouter();
-  const { query } = useRouter();
-  const { slug } = query;
   const { state, dispatch } = React.useContext(Store);
 
-  let product = data.products.find((a) => a.slug === slug);
-
   if (!product) {
-    return <div>Product Not Found</div>;
+    return (
+      <Layout title="Not found product">
+        <div>Product Not Found</div>
+      </Layout>
+    );
   }
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
     const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
+
+    const { data } = await axios.get('/api/products/' + product.slug);
+
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
-    if (existItem && existItem.quantity >= product.countInStock) {
+    if (existItem && existItem.quantity >= data.countInStock) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
@@ -62,8 +67,6 @@ export default function ProductScreen() {
 
             <li>Brand: {product.brand}</li>
 
-            <li>Brand: {product.brand}</li>
-
             <li>
               {product.rating} of {product.numReviews}
             </li>
@@ -91,4 +94,18 @@ export default function ProductScreen() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slug } = params;
+
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+
+  return {
+    props: {
+      product: product ? db.convertDocToObj(product) : null,
+    },
+  };
 }
