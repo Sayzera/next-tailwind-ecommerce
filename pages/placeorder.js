@@ -101,92 +101,91 @@ function PlaceOrderScreen() {
                 <Link href="/payment">Edit</Link>
               </div>
             </div>
+          </div>
+          <div className="card overflow-x-auto p-5">
+            <h2 className="mb-2 text-lg">Order Items</h2>
+            <table className="min-w-full">
+              <thead className="border-b">
+                <tr>
+                  <th className="px-5 text-left">Item</th>
+                  <th className="px-5 text-right">Quantity</th>
+                  <th className="px-5 text-right">Price</th>
+                  <th className="px-5 text-right">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cartItems.map((item) => (
+                  <tr key={item._id} className="border-b">
+                    <td>
+                      <Link href={'/product/' + item.slug}>
+                        <div className="flex items-center">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          />
+                          &nbsp;{item.name}
+                        </div>
+                      </Link>
+                    </td>
 
-            <div className="card overflow-x-auto p-5">
-              <h2 className="mb-2 text-lg">Order Items</h2>
-              <table className="min-w-full">
-                <thead className="border-b">
-                  <tr>
-                    <th className="px-5 text-left">Item</th>
-                    <th className="px-5 text-right">Quantity</th>
-                    <th className="px-5 text-right">Price</th>
-                    <th className="px-5 text-right">Subtotal</th>
+                    <td className="p-5 text-right">{item.quantity}</td>
+                    <td className="p-5 text-right">${item.price}</td>
+                    <td className="p-5 text-right">
+                      ${item.quantity * item.price}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {cartItems.map((item) => (
-                    <tr key={item._id} className="border-b">
-                      <td>
-                        <Link href={'/product/' + item.slug}>
-                          <div className="flex items-center">
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              width={50}
-                              height={50}
-                            />
-                            &nbsp;{item.name}
-                          </div>
-                        </Link>
-                      </td>
+                ))}
+              </tbody>
 
-                      <td className="p-5 text-right">{item.quantity}</td>
-                      <td className="p-5 text-right">${item.price}</td>
-                      <td className="p-5 text-right">
-                        ${item.quantity * item.price}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+              <div>
+                <Link href="/cart">Edit</Link>
+              </div>
+            </table>
+          </div>
 
-                <div>
-                  <Link href="/cart">Edit</Link>
+          <div className="card p-5">
+            <h2 className="mb-2 text-xl">Order Summary</h2>
+            <ul>
+              <li>
+                <div className="mb-2 flex justify-between">
+                  <div>Items</div>
+                  <div>${itemsPrice}</div>
                 </div>
-              </table>
-            </div>
+              </li>
 
-            <div className="card p-5">
-              <h2 className="mb-2 text-xl">Order Summary</h2>
-              <ul>
-                <li>
-                  <div className="mb-2 flex justify-between">
-                    <div>Items</div>
-                    <div>${itemsPrice}</div>
-                  </div>
-                </li>
+              <li>
+                <div className="mb-2 flex justify-between">
+                  <div>Tax</div>
+                  <div>${taxPrice}</div>
+                </div>
+              </li>
 
-                <li>
-                  <div className="mb-2 flex justify-between">
-                    <div>Tax</div>
-                    <div>${taxPrice}</div>
-                  </div>
-                </li>
+              <li>
+                <div className="mb-2 flex justify-between">
+                  <div>Shipping</div>
+                  <div>${shippingPrice}</div>
+                </div>
+              </li>
 
-                <li>
-                  <div className="mb-2 flex justify-between">
-                    <div>Shipping</div>
-                    <div>${shippingPrice}</div>
-                  </div>
-                </li>
+              <li>
+                <div className="mb-2 flex justify-between">
+                  <div>Total</div>
+                  <div>${totalPrice}</div>
+                </div>
+              </li>
 
-                <li>
-                  <div className="mb-2 flex justify-between">
-                    <div>Total</div>
-                    <div>${totalPrice}</div>
-                  </div>
-                </li>
-
-                <li>
-                  <button
-                    disabled={loading}
-                    onClick={placeOrderHandler}
-                    className="primary-button w-full"
-                  >
-                    {loading ? 'Loading...' : 'Place Order'}
-                  </button>
-                </li>
-              </ul>
-            </div>
+              <li>
+                <button
+                  disabled={loading}
+                  onClick={placeOrderHandler}
+                  className="primary-button w-full"
+                >
+                  {loading ? 'Loading...' : 'Place Order'}
+                </button>
+              </li>
+            </ul>
           </div>
         </>
       )}
