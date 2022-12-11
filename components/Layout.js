@@ -27,7 +27,7 @@ function Layout({ children, title }) {
 
   React.useEffect(() => {
     setCartItemsCount(cartItems.reduce((a, c) => a + c.quantity, 0));
-  }, []);
+  }, [cartItems]);
 
   return (
     <>

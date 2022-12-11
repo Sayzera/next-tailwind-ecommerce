@@ -15,11 +15,10 @@ export default function LoginScreen() {
     if (session?.user) {
       router.push(redirect || '/');
     }
-  }, [session]);
+  }, [session, router, redirect]);
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 

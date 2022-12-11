@@ -6,7 +6,6 @@ import { Store } from '../utils/Store';
 import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
 
 export default function Home({ products }) {
   const router = useRouter();

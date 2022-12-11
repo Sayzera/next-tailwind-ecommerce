@@ -16,7 +16,7 @@ export default function LoginScreen() {
     if (session?.user) {
       router.push(redirect || '/');
     }
-  }, [session]);
+  }, [session, redirect, router]);
   const {
     register,
     handleSubmit,
@@ -32,6 +32,16 @@ export default function LoginScreen() {
         password,
       });
       toast.success('Kayıt başarılı');
+
+      const result = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      });
+
+      if (result.error) {
+        toast.error(result.error);
+      }
 
       router.push(redirect || '/');
     } catch (err) {

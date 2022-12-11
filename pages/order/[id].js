@@ -47,14 +47,11 @@ function OrderScreen() {
 
   const {
     shippingAddress,
-    paymentMethod,
     orderItems,
     itemsPrice,
     taxPrice,
     shippingPrice,
     totalPrice,
-    isPaid,
-    paidAt,
     isDelivered,
     deliveredAt,
   } = order;
