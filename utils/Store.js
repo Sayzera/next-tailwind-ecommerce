@@ -38,7 +38,7 @@ function reducer(state, action) {
         ...state,
         cart: {
           cartItems: [],
-          shippingAddress: { location: {} },
+          shippingAddress: {},
           paymentMethod: '',
         },
       };

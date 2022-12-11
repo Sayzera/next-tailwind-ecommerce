@@ -14,12 +14,16 @@ export default NextAuth({
 
       // jwt callback çalışırsa token içerisine atacaklarımızı belirliyoruz ve sonra bunu session callback içerisinde kullanacağız
       if (user?._id) token._id = user._id;
+      if (user?._id) token.user = user;
       if (user?.isAdmin) token.isAdmin = user.isAdmin;
       return token;
     },
     async session({ session, token }) {
       // jwt callback içerisinde atadığımız token içerisindeki değerleri session içerisine atıyoruz
-      if (token._id) session._id = token._id;
+      if (token._id) {
+        session._id = token._id;
+        session.user = token.user;
+      }
       if (token.isAdmin) session.isAdmin = token.isAdmin;
       return session;
     },
